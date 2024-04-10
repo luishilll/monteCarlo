@@ -37,12 +37,17 @@ average = 0.05
 volatility = 0.2
 time_to_maturity = 1
 strike_price = 100
-
+sim_num = 500
 simulator = monteCarloSim(spot_price, average, volatility, 100, time_to_maturity, 100, strike_price)
-s = []
-for i in range(100):
-    prices = simulator.price_paths()
-    s.append(simulator.call_price(prices))
 
-print(s)
-print(np.mean(s))
+
+def generate_good_call(model, sim_num):
+    s = []
+    for i in range(sim_num):
+        prices = model.price_paths()
+        s.append(model.call_price(prices))
+    return np.mean(s)
+
+
+price = generate_good_call(simulator, sim_num)
+print(price)
